@@ -1,0 +1,105 @@
+body{
+    padding: 40px;
+    font-family: "Kumbh Sans";
+}
+
+h1{
+    color: navy;
+    font-size: 66px;
+    font-family: "Kumbh Sans";
+    font-weight: bold;
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    margin-top: 25px;
+    padding: 10px, 10px, 0, 0;
+}
+
+span{
+    font-weight: bold;
+}
+
+.menu{
+    display: grid;
+    height: 150px;
+    max-width: 75%;
+    grid-column: 1 / 5;
+}
+
+.filterOnKitchen{
+    grid-column: 1 / 2
+}
+
+.filterOnTime{
+    grid-column: 3 / 5;
+    grid-row: 1 / 3;
+}
+
+button{
+    background-color: #44ffba; /* Green */
+    color: navy;
+    border: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin: 5px;
+  }
+
+button:hover {
+    border: 2px solid navy;
+    color: white;
+}
+
+.buttonTime{
+    background-color: pink;
+}
+
+.buttonTime:hover{
+    border: 2px solid navy;
+}
+
+.buttonTime:active {
+    background-color: rgb(255, 105, 105);
+    color: white;
+    transform: translateY(2px);
+}
+
+.cardsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.cards {
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    width: 250px;
+    height: 621px;
+    margin: 10px;
+    border-radius: 20px;
+    border: 1px solid grey;
+    padding: 20px;
+}
+
+.cards:hover {
+    border: 1px solid navy;
+    box-shadow: 5px 5px 10px rgba(15, 12, 231, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+img{
+    width: 100%;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        height: auto;
+        grid-column: 1 / -1;
+    }
+}
