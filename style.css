@@ -34,10 +34,10 @@ span{
     grid-row: 1 / 3;
 }
 
-button{
+.buttonCuisine{
     background-color: #44ffba; /* Green */
     color: navy;
-    border: none;
+    border: 2px solid transparent;
     padding: 16px 24px;
     text-align: center;
     text-decoration: none;
@@ -48,23 +48,52 @@ button{
     margin: 5px;
   }
 
-button:hover {
+.button:active{
+
+}
+
+input{
+    /* display: none; */
+  }
+
+.buttonCuisine:hover {
     border: 2px solid navy;
     color: white;
+}
+
+.buttonCuisine:has(:checked){
+    background-color: navy;
+    color: white;
+    border: 2px solid transparent;
+}
+
+input{
+    display: none;
 }
 
 .buttonTime{
     background-color: pink;
+    border: 2px solid transparent;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin: 5px;
 }
 
 .buttonTime:hover{
+    background-color: rgb(255, 105, 105);
+    color: white;
     border: 2px solid navy;
 }
 
-.buttonTime:active {
+.buttonTime:has(:checked) {
     background-color: rgb(255, 105, 105);
     color: white;
-    transform: translateY(2px);
+    border: 2px solid transparent;
 }
 
 .cardsContainer{
@@ -79,7 +108,7 @@ button:hover {
     flex-wrap: wrap;
     background-color: rgb(255, 255, 255);
     width: 250px;
-    height: 621px;
+    min-height: 621px;
     margin: 10px;
     border-radius: 20px;
     border: 1px solid grey;
@@ -97,9 +126,22 @@ img{
     border-radius: 20px;
 }
 
+/* MOBILE VIEW */
 @media (max-width: 768px) {
     .menu {
         height: auto;
         grid-column: 1 / -1;
     }
+}
+
+.cards {
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    width: 200px;
+    height: 621px;
+    margin: 10px;
+    border-radius: 20px;
+    border: 1px solid grey;
+    padding: 20px;
 }
