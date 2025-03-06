@@ -160,7 +160,7 @@ const recipes = [
 }
 ]
 
-const loadRecipes = (arg1) => {  //Loads recipes function
+const loadRecipes = (arg1) => {  //Loads recipes function with title, number of minutes it takes to cook and the type of cuisine.
     container.innerHTML = '' //Resets all recipes when loaded
 
     arg1.forEach(recipe => { 
@@ -175,49 +175,59 @@ const loadRecipes = (arg1) => {  //Loads recipes function
 
 const buttonCuisine = document.querySelectorAll(".buttonCuisine") //An array with all cuisine buttons
 const buttonTime = document.querySelectorAll(".buttonTime") // An array with all time buttons
+const buttonRandom = document.querySelectorAll(".buttonRandom")
 
 let currentCuisine = "all"
 
-buttonCuisine.forEach(button => { //Adds eventlisteners to all cuisine-buttons
+buttonCuisine.forEach(button => { //Adds eventlisteners to all cuisine-buttons and then calls the function filterByCuisine.
     button.addEventListener("click", (button) => {
         const cuisine = button.target.getAttribute("data-cuisine")
         filterByCuisine(cuisine)
     })
 })
 
-const filterByCuisine = (arg1) => { //Function that checks if or which cuisine is attributed to the recipe  
+const filterByCuisine = (arg1) => { //Function that takes in an argument (cuisine) and applies it to the variable currentCuisie before calling the function applyFilters.
     currentCuisine = arg1
     applyFilters()
     }
 
-buttonTime.forEach(button => {
-    button.addEventListener("change", (button) => { // Use "change" event for radio buttons
-        const time = button.target.value // Get selected value (ascending or descending)
+buttonTime.forEach(button => { //Adds eventlisteners to all time-buttons (and get either ascending or descending from them) and then calls the function filterByTime.
+    button.addEventListener("change", (button) => {
+        const time = button.target.value
         filterByTime(time)
     })
 })
 
-const filterByTime = (time) => {
+const filterByTime = (time) => { //Takes in the variable carrying either ascending or descending and performs an if-statement, sorting them accordingly. At the end it callst he loadsRecipes function with the filteredRecipes as an argument.
     const filteredRecipes = getCurrentCuisineFiltered()
     if (time === "ascending") {
-        filteredRecipes.sort((a, b) => a.readyInMinutes - b.readyInMinutes)
+        filteredRecipes.sort((a, b) => a.readyInMinutes - b.readyInMinutes) //Ascending
     } else {
-        filteredRecipes.sort((a, b) => b.readyInMinutes - a.readyInMinutes)
+        filteredRecipes.sort((a, b) => b.readyInMinutes - a.readyInMinutes) //Descending
     }
     loadRecipes(filteredRecipes)
 }
 
-const getCurrentCuisineFiltered = () => {
+const getCurrentCuisineFiltered = () => { //Performs an if-statement, returning either all recipes or performs a method to return a filtered version of recipes. The filtered version makes sure it is the same as currentCuisine.
     if (currentCuisine === "all") {
         return [... recipes]
     }
         return recipes.filter(recipe => recipe.cuisine === currentCuisine)
     }
 
-const applyFilters = () => {
+const applyFilters = () => { //Gives the filteredRecipes variable the value returned when calling function getCurrentCuisineFiltered(). Then loads in as an argument when calling loading loadRecipes.
     const filteredRecipes = getCurrentCuisineFiltered()
     loadRecipes(filteredRecipes)
 }
 
+document.querySelector('.buttonRandom').addEventListener('click', () => { //Queryselector for random button that picks out a random number between 0 and 6 (since there are 7 recipes) and then creates a for-loop that hides all cards except for the one with the randomized index spot.
+    randomNumber = Math.floor(Math.random() * recipes.length)
+    const cards = document.querySelectorAll('.cards')
+    
+    cards.forEach(card => {
+    card.style.display = 'none'
+    })
+    cards[randomNumber].style.display = 'block'
+})
 
 loadRecipes(recipes)
