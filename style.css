@@ -1,6 +1,7 @@
 body{
     padding: 40px;
     font-family: "Kumbh Sans";
+    margin: 0;
 }
 
 h1{
@@ -35,7 +36,7 @@ span{
 }
 
 .buttonCuisine{
-    background-color: #44ffba; /* Green */
+    background-color: #44ffba;
     color: navy;
     border: 2px solid transparent;
     padding: 16px 24px;
@@ -48,17 +49,10 @@ span{
     margin: 5px;
   }
 
-.button:active{
-
-}
-
-input{
-    /* display: none; */
-  }
-
 .buttonCuisine:hover {
     border: 2px solid navy;
     color: white;
+    cursor: pointer;
 }
 
 .buttonCuisine:has(:checked){
@@ -88,6 +82,7 @@ input{
     background-color: rgb(255, 105, 105);
     color: white;
     border: 2px solid navy;
+    cursor: pointer;
 }
 
 .buttonTime:has(:checked) {
@@ -96,18 +91,18 @@ input{
     border: 2px solid transparent;
 }
 
-.cardsContainer{
+#container{
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
     justify-content: flex-start;
+    margin-top: 45px;
 }
 
 .cards {
     gap: 10px;
     flex-wrap: wrap;
     background-color: rgb(255, 255, 255);
-    width: 250px;
+    width: 400px;
     min-height: 621px;
     margin: 10px;
     border-radius: 20px;
@@ -138,7 +133,6 @@ img{
     gap: 10px;
     flex-wrap: wrap;
     background-color: rgb(255, 255, 255);
-    width: 200px;
     height: 621px;
     margin: 10px;
     border-radius: 20px;
