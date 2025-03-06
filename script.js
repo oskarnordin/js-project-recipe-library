@@ -160,11 +160,6 @@ const recipes = [
 }
 ]
 
-const currentCuisine = "all";
-
-const buttonCuisine = document.querySelectorAll(".buttonCuisine") //An array with all cuisine buttons
-const buttonTime = document.querySelectorAll(".buttonTime") // An array with all time buttons
-
 const loadRecipes = (arg1) => {  //Loads recipes function
     container.innerHTML = '' //Resets all recipes when loaded
 
@@ -178,6 +173,11 @@ const loadRecipes = (arg1) => {  //Loads recipes function
     })
 }
 
+const buttonCuisine = document.querySelectorAll(".buttonCuisine") //An array with all cuisine buttons
+const buttonTime = document.querySelectorAll(".buttonTime") // An array with all time buttons
+
+let currentCuisine = "all"
+
 buttonCuisine.forEach(button => { //Adds eventlisteners to all cuisine-buttons
     button.addEventListener("click", (button) => {
         const cuisine = button.target.getAttribute("data-cuisine")
@@ -185,40 +185,39 @@ buttonCuisine.forEach(button => { //Adds eventlisteners to all cuisine-buttons
     })
 })
 
-const filterByCuisine = (cuisine) => { //Function that checks if or which cuisine is attributed to the recipe  
-    if (cuisine === "all") {
-        loadRecipes(recipes)
-    } else {
-        const filteredRecipes = recipes.filter(recipe => recipe.cuisine === cuisine)
-        loadRecipes(filteredRecipes)
+const filterByCuisine = (arg1) => { //Function that checks if or which cuisine is attributed to the recipe  
+    currentCuisine = arg1
+    applyFilters()
     }
-}
 
-buttonTime.forEach(button => { //Adds eventlisteners to all time-buttons
-    button.addEventListener("click", (button) => {
-        const time = button.target.value("ascending")
+buttonTime.forEach(button => {
+    button.addEventListener("change", (button) => { // Use "change" event for radio buttons
+        const time = button.target.value // Get selected value (ascending or descending)
         filterByTime(time)
     })
 })
 
-
-buttonTime.forEach(button => {
-    button.addEventListener("change", (button) => { // Use "change" event for radio buttons
-        const time = button.target.value; // Get selected value (ascending or descending)
-        filterByTime(time);
-    });
-});
-
 const filterByTime = (time) => {
-    const filteredByTime = [...recipes]
-
+    const filteredRecipes = getCurrentCuisineFiltered()
     if (time === "ascending") {
-        filteredByTime.sort((a, b) => a.readyInMinutes - b.readyInMinutes);
+        filteredRecipes.sort((a, b) => a.readyInMinutes - b.readyInMinutes)
     } else {
-        filteredByTime.sort((a, b) => b.readyInMinutes - a.readyInMinutes);
+        filteredRecipes.sort((a, b) => b.readyInMinutes - a.readyInMinutes)
+    }
+    loadRecipes(filteredRecipes)
+}
+
+const getCurrentCuisineFiltered = () => {
+    if (currentCuisine === "all") {
+        return [... recipes]
+    }
+        return recipes.filter(recipe => recipe.cuisine === currentCuisine)
     }
 
-    loadRecipes(filteredByTime)
+const applyFilters = () => {
+    const filteredRecipes = getCurrentCuisineFiltered()
+    loadRecipes(filteredRecipes)
 }
+
 
 loadRecipes(recipes)
