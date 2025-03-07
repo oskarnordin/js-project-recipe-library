@@ -1,69 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Recipe Library</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Recipe Library</h1>
+    <h1>Recipe Library</h1>
     <div class="menu">
-    <div class="filterOnKitchen"> 
-        <h2>Filter on Kitchen</h2>
-    <label class="buttonCuisine">
-    <input type="radio"
-    name="cuisine"data-cuisine="all"> All
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Italian"> Italian
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="European"> European
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Asian"> Asian
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Mediterranean"> Mediterranean
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Mexican"> Mexican
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Middle Eastern"> Middle Eastern
-    </label>
-    <label class="buttonCuisine">
-      <input type="radio" name="cuisine" data-cuisine="Indian"> Indian
-    </label>
-  </div>
-    <div class="filterOnTime">
-      <h2>Filter on Time</h2>
-      <label id="ascending" class="buttonTime">
-        <input type="radio" name="timeFilter" value="ascending">
-          Ascending
-      </label>
-      <label id="descending" class="buttonTime">
-        <input type="radio" name="timeFilter" value="descending">
-        Descending
-      </label>       
-      </div>
-      <div class="randomButton">
-        <h2>Random</h2>
-        <label class="buttonRandom">
-            <input type="button" name="random" value="random">
-            Random
-        </label>
+        <div class="filterOnKitchen">
+            <h2>Filter on Kitchen</h2>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="all" />All
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Italian" />Italian
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="European" />European
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Asian" />Asian
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Mediterranean" />Mediterranean
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Mexican" />Mexican
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Middle Eastern" />Middle Eastern
+            </label>
+            <label class="buttonCuisine">
+                <input type="radio" name="cuisine" data-cuisine="Indian" />Indian
+            </label>
+        </div>
+        <div class="filterOnTime">
+            <h2>Filter on Time</h2>
+            <label id="ascending" class="buttonTime">
+                <input type="radio" name="timeFilter" value="ascending" />Ascending
+            </label>
+            <label id="descending" class="buttonTime">
+                <input type="radio" name="timeFilter" value="descending" />Descending
+            </label>
+        </div>
+        <div class="randomButton">
+            <h2>Random</h2>
+            <label class="buttonRandom">
+                <input type="button" name="random" value="random" />Random
+            </label>
+        </div>
     </div>
-
-<div id="container">
-    <div class="cards">
+    <div id="container">
+        <div class="cards"></div>
     </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

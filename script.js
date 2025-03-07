@@ -161,7 +161,7 @@ const recipes = [
 }
 ]
 
-//SET CURRENT CUISINE ALL AS DEFAULT
+//SET CURRENT CUISINE "ALL" AS DEFAULT
 let currentCuisine = "all"
 
 //DEFINE FUNCTIONS
