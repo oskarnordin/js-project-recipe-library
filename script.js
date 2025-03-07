@@ -1,4 +1,4 @@
-//Define recipes array
+//DEFINE RECIPES ARRAY
 const recipes = [ 
 {
     id: 1,
@@ -161,69 +161,37 @@ const recipes = [
 }
 ]
 
+//SET CURRENT CUISINE ALL AS DEFAULT
+let currentCuisine = "all"
+
+//DEFINE FUNCTIONS
 const loadRecipes = (arg1) => {
     if (arg1.length === 0) {
         container.innerHTML = `
-            <div class="cards">
-                <p>No recipes found for ${currentCuisine} cuisine</p>
-            </div>
+        <div class="cards">
+        <p>No recipes found for ${currentCuisine} cuisine</p>
+        </div>
         `
-        return
+    return
     }
-
-    container.innerHTML = ''
-    arg1.forEach(recipe => {
+        container.innerHTML = ''
+        arg1.forEach(recipe => {
         container.innerHTML += `
-            <div class="cards">
-                <p>${recipe.title}</p>
-                <p>${recipe.readyInMinutes} minutes</p>
-                <p>${recipe.cuisine}</p>
-            </div>
+        <div class="cards">
+        <p>${recipe.title}</p>
+        <p>${recipe.readyInMinutes} minutes</p>
+        <p>${recipe.cuisine}</p>
+        </div>
         `
     })
 }
 
-//Button elements are selected
-const buttonCuisine = document.querySelectorAll(".buttonCuisine")
-const buttonTime = document.querySelectorAll(".buttonTime")
-const buttonRandom = document.querySelectorAll(".buttonRandom")
-
-//Set currentCusiine to "all"
-let currentCuisine = "all"
-
-//Listens for clicks to filter by cuisine
-buttonCuisine.forEach(button => { 
-    button.addEventListener("click", (button) => {
-        const cuisine = button.target.getAttribute("data-cuisine")
-        filterByCuisine(cuisine)
-    })
-})
-
-//Listens for changes to sort by time
-buttonTime.forEach(button => { 
-    button.addEventListener("change", (button) => {
-        const time = button.target.value
-        filterByTime(time)
-    })
-})
-
-//Listens for clicks to show random recipe
-document.querySelector('.buttonRandom').addEventListener('click', () => { 
-    const filteredRecipes = getCurrentCuisineFiltered()
-    
-    randomNumber = Math.floor(Math.random() * filteredRecipes.length)
-    loadRecipes([filteredRecipes[randomNumber]])
-})
-
-// 
 const filterByCuisine = (arg1) => {
     currentCuisine = arg1
     applyFilters()
-    }
+}
 
-
-
-const filterByTime = (time) => { //Takes in the variable carrying either ascending or descending and performs an if-statement, sorting them accordingly. At the end it callst he loadsRecipes function with the filteredRecipes as an argument.
+const filterByTime = (time) => { 
     const filteredRecipes = getCurrentCuisineFiltered()
     if (time === "ascending") {
         filteredRecipes.sort((a, b) => a.readyInMinutes - b.readyInMinutes) //Ascending
@@ -233,14 +201,43 @@ const filterByTime = (time) => { //Takes in the variable carrying either ascendi
     loadRecipes(filteredRecipes)
 }
 
-const getCurrentCuisineFiltered = () => { //Performs an if-statement, returning either all recipes or performs a method to return a filtered version of recipes. The filtered version makes sure it is the same as currentCuisine.
+const getCurrentCuisineFiltered = () => { 
     if (currentCuisine === "all") {
         return [... recipes]
     }
-        return recipes.filter(recipe => recipe.cuisine === currentCuisine)
-    }
+    return recipes.filter(recipe => recipe.cuisine === currentCuisine)
+}
 
-const applyFilters = () => { //Gives the filteredRecipes variable the value returned when calling function getCurrentCuisineFiltered(). Then loads in as an argument when calling loading loadRecipes.
+const applyFilters = () => { 
     const filteredRecipes = getCurrentCuisineFiltered()
     loadRecipes(filteredRecipes)
 }
+
+//BUTTON SELECTORS
+const buttonCuisine = document.querySelectorAll(".buttonCuisine")
+const buttonTime = document.querySelectorAll(".buttonTime")
+const buttonRandom = document.querySelectorAll(".buttonRandom")
+
+//EVENT LISTENERS
+//LISTENS FOR CLICKS TO FILTER BY CUISINE
+buttonCuisine.forEach(button => { 
+    button.addEventListener("click", (button) => {
+        const cuisine = button.target.getAttribute("data-cuisine")
+        filterByCuisine(cuisine)
+    })
+})
+
+//LISTENS FOR CHANGES TO SORT BY TIME
+buttonTime.forEach(button => { 
+    button.addEventListener("change", (button) => {
+        const time = button.target.value
+        filterByTime(time)
+    })
+})
+
+//LISTENS FOR CLICKS TO RANDOMLY SELECT A RECIPE
+document.querySelector('.buttonRandom').addEventListener('click', () => { 
+    const filteredRecipes = getCurrentCuisineFiltered()
+    const randomNumber = Math.floor(Math.random() * filteredRecipes.length)
+    loadRecipes([filteredRecipes[randomNumber]])
+})
