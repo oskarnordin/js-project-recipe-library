@@ -1,3 +1,4 @@
+//Define recipes array
 const recipes = [ 
 {
     id: 1,
@@ -160,43 +161,67 @@ const recipes = [
 }
 ]
 
-const loadRecipes = (arg1) => {  //Loads recipes function with title, number of minutes it takes to cook and the type of cuisine.
-    container.innerHTML = '' //Resets all recipes when loaded
+const loadRecipes = (arg1) => {
+    if (arg1.length === 0) {
+        container.innerHTML = `
+            <div class="cards">
+                <p>No recipes found for ${currentCuisine} cuisine</p>
+            </div>
+        `
+        return
+    }
 
-    arg1.forEach(recipe => { 
-        container.innerHTML += 
-        `<div class="cards">
-            <p>${recipe.title}</p>
-            <p>${recipe.readyInMinutes} minutes</p>
-            <p>${recipe.cuisine}</p>
-        </div>`
+    container.innerHTML = ''
+    arg1.forEach(recipe => {
+        container.innerHTML += `
+            <div class="cards">
+                <p>${recipe.title}</p>
+                <p>${recipe.readyInMinutes} minutes</p>
+                <p>${recipe.cuisine}</p>
+            </div>
+        `
     })
 }
 
-const buttonCuisine = document.querySelectorAll(".buttonCuisine") //An array with all cuisine buttons
-const buttonTime = document.querySelectorAll(".buttonTime") // An array with all time buttons
+//Button elements are selected
+const buttonCuisine = document.querySelectorAll(".buttonCuisine")
+const buttonTime = document.querySelectorAll(".buttonTime")
 const buttonRandom = document.querySelectorAll(".buttonRandom")
 
+//Set currentCusiine to "all"
 let currentCuisine = "all"
 
-buttonCuisine.forEach(button => { //Adds eventlisteners to all cuisine-buttons and then calls the function filterByCuisine.
+//Listens for clicks to filter by cuisine
+buttonCuisine.forEach(button => { 
     button.addEventListener("click", (button) => {
         const cuisine = button.target.getAttribute("data-cuisine")
         filterByCuisine(cuisine)
     })
 })
 
-const filterByCuisine = (arg1) => { //Function that takes in an argument (cuisine) and applies it to the variable currentCuisie before calling the function applyFilters.
-    currentCuisine = arg1
-    applyFilters()
-    }
-
-buttonTime.forEach(button => { //Adds eventlisteners to all time-buttons (and get either ascending or descending from them) and then calls the function filterByTime.
+//Listens for changes to sort by time
+buttonTime.forEach(button => { 
     button.addEventListener("change", (button) => {
         const time = button.target.value
         filterByTime(time)
     })
 })
+
+//Listens for clicks to show random recipe
+document.querySelector('.buttonRandom').addEventListener('click', () => { 
+    const filteredRecipes = getCurrentCuisineFiltered()
+    
+    randomNumber = Math.floor(Math.random() * filteredRecipes.length)
+    loadRecipes([filteredRecipes[randomNumber]])
+})
+
+// 
+const filterByCuisine = (arg1) => {
+    currentCuisine = arg1
+    applyFilters()
+    }
+
+
 
 const filterByTime = (time) => { //Takes in the variable carrying either ascending or descending and performs an if-statement, sorting them accordingly. At the end it callst he loadsRecipes function with the filteredRecipes as an argument.
     const filteredRecipes = getCurrentCuisineFiltered()
@@ -219,15 +244,3 @@ const applyFilters = () => { //Gives the filteredRecipes variable the value retu
     const filteredRecipes = getCurrentCuisineFiltered()
     loadRecipes(filteredRecipes)
 }
-
-document.querySelector('.buttonRandom').addEventListener('click', () => { //Queryselector for random button that picks out a random number between 0 and 6 (since there are 7 recipes) and then creates a for-loop that hides all cards except for the one with the randomized index spot.
-    randomNumber = Math.floor(Math.random() * recipes.length)
-    const cards = document.querySelectorAll('.cards')
-    
-    cards.forEach(card => {
-    card.style.display = 'none'
-    })
-    cards[randomNumber].style.display = 'block'
-})
-
-loadRecipes(recipes)
