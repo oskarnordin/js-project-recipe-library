@@ -1,128 +1,110 @@
-body{
+:root {
+    --primary-color: navy;
+    --secondary-color: #44ffba;
+    --hover-color: rgb(255, 105, 105);
+    --font-family: "Kumbh Sans";
+    --padding: 16px 24px;
+    --border-radius: 20px;
+}
+
+body {
     padding: 40px;
-    font-family: "Kumbh Sans";
+    font-family: var(--font-family);
     margin: 0;
 }
 
-h1{
-    color: navy;
+h1 {
+    color: var(--primary-color);
     font-size: 66px;
-    font-family: "Kumbh Sans";
+    font-family: var(--font-family);
     font-weight: bold;
     grid-column: 1 / 4;
     grid-row: 1 / 2;
     margin-top: 25px;
-    padding: 10px, 10px, 0, 0;
+    padding: 10px 10px 0 0;
 }
 
-span{
+span {
     font-weight: bold;
 }
 
-.container {  display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 0px 10px;
+.container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 0 10px;
     grid-auto-flow: row;
     grid-template-areas:
-      ". . . . . ."
-      ". . . . . ."
-      ". . . . . ."
-      ". . . . . ."
-      ". . . . . ."
-      ". . . . . .";
-  }
-  
-
-.filterOnKitchen{
-    grid-column: 1 / 1
+        ". . . . . ."
+        ". . . . . ."
+        ". . . . . ."
+        ". . . . . ."
+        ". . . . . ."
+        ". . . . . .";
 }
 
-.filterOnTime{
+.filterOnKitchen {
+    grid-column: 1 / 1;
+}
+
+.filterOnTime {
     grid-column: 2 / 2;
 }
 
-.randomButton{
-    grid-column: 2 / 3
+.randomButton {
+    grid-column: 2 / 3;
 }
 
-.buttonCuisine{
-    background-color: #44ffba;
-    color: navy;
+.buttonCuisine,
+.buttonTime,
+.buttonRandom {
     border: 2px solid transparent;
-    padding: 16px 24px;
+    padding: var(--padding);
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     font-weight: 600;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     margin: 5px;
-  }
+}
 
-.buttonCuisine:hover {
-    border: 2px solid navy;
+.buttonCuisine {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.buttonCuisine:hover,
+.buttonTime:hover,
+.buttonRandom:hover {
+    border: 2px solid var(--primary-color);
     color: white;
     cursor: pointer;
 }
 
-.buttonCuisine:has(:checked){
-    background-color: navy;
+.buttonCuisine:has(:checked),
+.buttonTime:has(:checked),
+.buttonRandom:has(:checked) {
+    background-color: var(--primary-color);
     color: white;
     border: 2px solid transparent;
 }
 
-input{
+.buttonTime,
+.buttonRandom {
+    background-color: pink;
+}
+
+.buttonTime:hover,
+.buttonRandom:hover {
+    background-color: var(--hover-color);
+}
+
+input {
     display: none;
 }
 
-.buttonTime{
-    background-color: pink;
-    border: 2px solid transparent;
-    padding: 16px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 20px;
-    margin: 5px;
-}
-
-.buttonTime:hover{
-    background-color: rgb(255, 105, 105);
-    color: white;
-    border: 2px solid navy;
-    cursor: pointer;
-}
-
-.buttonTime:has(:checked) {
-    background-color: rgb(255, 105, 105);
-    color: white;
-    border: 2px solid transparent;
-}
-
-.buttonRandom{
-    background-color: pink;
-    border: 2px solid transparent;
-    padding: 16px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 20px;
-    margin: 5px;
-}
-
-.buttonRandom:hover{
-    background-color: rgb(255, 105, 105);
-    color: white;
-    border: 2px solid navy;
-    cursor: pointer;
-}
-
-#container{
+#container {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -132,24 +114,24 @@ input{
 .cards {
     gap: 10px;
     flex-wrap: wrap;
-    background-color: rgb(255, 255, 255);
+    background-color: #fff;
     width: 400px;
     min-height: 621px;
     margin: 10px;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     border: 1px solid grey;
     padding: 20px;
-}
-
-.cards:hover {
-    border: 1px solid navy;
-    box-shadow: 5px 5px 10px rgba(15, 12, 231, 0.2);
     transition: all 0.3s ease-in-out;
 }
 
-img{
+.cards:hover {
+    border: 1px solid var(--primary-color);
+    box-shadow: 5px 5px 10px rgba(15, 12, 231, 0.2);
+}
+
+img {
     width: 100%;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
 }
 
 /* MOBILE VIEW */
@@ -158,15 +140,4 @@ img{
         height: auto;
         grid-column: 1 / -1;
     }
-}
-
-.cards {
-    gap: 10px;
-    flex-wrap: wrap;
-    background-color: rgb(255, 255, 255);
-    height: 621px;
-    margin: 10px;
-    border-radius: 20px;
-    border: 1px solid grey;
-    padding: 20px;
 }
