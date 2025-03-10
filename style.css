@@ -34,13 +34,6 @@ span {
     grid-template-rows: repeat(6, 1fr);
     gap: 0 10px;
     grid-auto-flow: row;
-    grid-template-areas:
-        ". . . . . ."
-        ". . . . . ."
-        ". . . . . ."
-        ". . . . . ."
-        ". . . . . ."
-        ". . . . . .";
 }
 
 .filterOnKitchen {
@@ -104,18 +97,27 @@ input {
     display: none;
 }
 
-#container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-top: 45px;
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
+    gap: 10px; /* Adjust the gap between the columns if needed */
+    grid-auto-flow: row;
+    grid-template-areas:
+        ". . ."
+        ". . ."
+        ". . ."
+        ". . ."
+        ". . ."
+        ". . .";
 }
 
 .cards {
+    display: grid;
     gap: 10px;
+    line-height: 0.8;
     flex-wrap: wrap;
     background-color: #fff;
-    width: 400px;
+    width: 20%;
     min-height: 621px;
     margin: 10px;
     border-radius: var(--border-radius);
@@ -140,4 +142,21 @@ img {
         height: auto;
         grid-column: 1 / -1;
     }
+}
+
+.cards {
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #fff;
+    width: 25%;
+    min-height: 300px;
+    margin: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid grey;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.container {
+    display: flex;
 }
