@@ -1,186 +1,36 @@
-// //DEFINE RECIPES ARRAY
-// const recipes = [ 
-// {
-//     id: 1,
-//     title: "Vegan Lentil Soup",
-//     image: "./chicken.webp",
-//     readyInMinutes: 30,
-//     servings: 4,
-//     sourceUrl: "https://example.com/vegan-lentil-soup",
-//     diets: ["vegan"],
-//     cuisine: "Mediterranean",
-//     ingredients: [
-//     "red lentils",
-//     "carrots",
-//     "onion",
-//     "garlic",
-//     "tomato paste",
-//     "cumin",
-//     "paprika",
-//     "vegetable broth",
-//     "olive oil",
-//     "salt"
-//     ],
-//     pricePerServing: 2.5,
-//     popularity: 85
-// },
-// {
-//     id: 2,
-//     title: "Vegetarian Pesto Pasta",
-//     image: "./chicken.webp",
-//     readyInMinutes: 25,
-//     servings: 2,
-//     sourceUrl: "https://example.com/vegetarian-pesto-pasta",
-//     diets: ["vegetarian"],
-//     cuisine: "Italian",
-//     ingredients: [
-//     "pasta",
-//     "basil",
-//     "parmesan cheese",
-//     "garlic",
-//     "pine nuts",
-//     "olive oil",
-//     "salt",
-//     "black pepper"
-//     ],
-//     pricePerServing: 3.0,
-//     popularity: 92
-// },
-// {
-//     id: 3,
-//     title: "Gluten-Free Chicken Stir-Fry",
-//     image: "./chicken.webp",
-//     readyInMinutes: 20,
-//     servings: 3,
-//     sourceUrl: "https://example.com/gluten-free-chicken-stir-fry",
-//     diets: ["gluten-free"],
-//     cuisine: "Asian",
-//     ingredients: [
-//     "chicken breast",
-//     "broccoli",
-//     "bell pepper",
-//     "carrot",
-//     "soy sauce (gluten-free)",
-//     "ginger",
-//     "garlic",
-//     "sesame oil",
-//     "cornstarch",
-//     "green onion",
-//     "sesame seeds",
-//     "rice"
-//     ],
-//     pricePerServing: 4.0,
-//     popularity: 78
-// },
-// {
-//     id: 4,
-//     title: "Dairy-Free Tacos",
-//     image: "./chicken.webp",
-//     readyInMinutes: 15,
-//     servings: 2,
-//     sourceUrl: "https://example.com/dairy-free-tacos",
-//     diets: ["dairy-free"],
-//     cuisine: "Mexican",
-//     ingredients: [
-//     "corn tortillas",
-//     "ground beef",
-//     "taco seasoning",
-//     "lettuce",
-//     "tomato",
-//     "avocado"
-//     ],
-//     pricePerServing: 2.8,
-//     popularity: 88
-// },
-// {
-//     id: 5,
-//     title: "Middle Eastern Hummus",
-//     image: "./chicken.webp",
-//     readyInMinutes: 10,
-//     servings: 4,
-//     sourceUrl: "https://example.com/middle-eastern-hummus",
-//     diets: ["vegan", "gluten-free"],
-//     cuisine: "Middle Eastern",
-//     ingredients: [
-//     "chickpeas",
-//     "tahini",
-//     "garlic",
-//     "lemon juice",
-//     "olive oil"
-//     ],
-//     pricePerServing: 1.5,
-//     popularity: 95
-// },
-// {
-//     id: 6,
-//     title: "Quick Avocado Toast",
-//     image: "./chicken.webp",
-//     readyInMinutes: 5,
-//     servings: 1,
-//     sourceUrl: "https://example.com/quick-avocado-toast",
-//     diets: ["vegan"],
-//     cuisine: "Mediterranean",
-//     ingredients: [
-//     "bread",
-//     "avocado",
-//     "lemon juice",
-//     "salt"
-//     ],
-//     pricePerServing: 2.0,
-//     popularity: 90
-// },
-// {
-//     id: 7,
-//     title: "Beef Stew",
-//     image: "./chicken.webp",
-//     readyInMinutes: 90,
-//     servings: 5,
-//     sourceUrl: "https://example.com/beef-stew",
-//     diets: [],
-//     cuisine: "European",
-//     ingredients: [
-//     "beef chunks",
-//     "potatoes",
-//     "carrots",
-//     "onion",
-//     "garlic",
-//     "tomato paste",
-//     "beef broth",
-//     "red wine",
-//     "bay leaves",
-//     "thyme",
-//     "salt",
-//     "black pepper",
-//     "butter",
-//     "flour",
-//     "celery",
-//     "mushrooms"
-//     ],
-//     pricePerServing: 5.5,
-//     popularity: 80
-// }
-
 let recipes = []
 const container = document.querySelector('.container') 
+const URL = "https://api.spoonacular.com/recipes/random?number=10&apiKey=025b168ece454bd28587e077ad0c96d6"
+let currentCuisine = "all"
+let currentDiet = "all"
 
-const URL = "https://api.spoonacular.com/recipes/random?number=1&apiKey=025b168ece454bd28587e077ad0c96d6"
-
+//API call
 fetch(URL)
-.then(response => response.json())
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+})
 .then(data => {
-    recipes = data.recipes
-    console.log(recipes)
+    recipes = data.recipes;
+    console.log(recipes);
 })
 .catch(error => {
-    console.log(error)
-})
+    console.log(error);
+    container.innerHTML += `
+    <div class="errorMessages">
+        <h2>There was an error loading the recipes</h2>
+        <p>${error.message}</p>
+        <button class="errorButton">Dismiss</button>
+    </div>
+    `;
+    document.querySelector('.errorButton').addEventListener('click', () => {
+        document.querySelector('.errorMessages').classList.add('hidden');
+    });
+});
 
-
-    
-//SET CURRENT CUISINE "ALL" AS DEFAULT
-let currentCuisine = "all"
-
-//DEFINE FUNCTIONS
+//Functions
 const loadRecipes = (arg1) => {
     if (arg1.length === 0) {
         container.innerHTML = `
@@ -194,9 +44,13 @@ const loadRecipes = (arg1) => {
         arg1.forEach(recipe => {
         container.innerHTML += `
         <div class="cards">
-        <p>${recipe.title}</p>
-        <p>${recipe.readyInMinutes} minutes</p>
-        <p>${recipe.cuisine}</p>
+        <p><img src="${recipe.image}" alt="${recipe.title}"></p>
+        <h2>${recipe.title}</h2>
+        <p>Time to cook: ${recipe.readyInMinutes} minutes<br>
+        Cuisine: ${recipe.cuisine}<br>
+        Health score: ${recipe.healthScore}
+
+        </p>
         </div>
         `
     })
@@ -224,18 +78,32 @@ const getCurrentCuisineFiltered = () => {
     return recipes.filter(recipe => recipe.cuisine === currentCuisine)
 }
 
+const getCurrentDietFiltered = () => {
+    if (currentDiet === "all") {
+        return recipes
+    }
+    return recipes.filter(recipe => recipe.diets.includes(currentDiet))
+}
+
 const applyFilters = () => { 
     const filteredRecipes = getCurrentCuisineFiltered()
     loadRecipes(filteredRecipes)
 }
 
-//BUTTON SELECTORS
+const filterByDiet = (diet) => {
+    const filteredRecipes = getCurrentCuisineFiltered()
+    const filteredDiet = filteredRecipes.filter(recipe => recipe.diets.includes(diet))
+    loadRecipes(filteredDiet)
+}
+
+
+//Event listeners
 const buttonCuisine = document.querySelectorAll(".buttonCuisine")
 const buttonTime = document.querySelectorAll(".buttonTime")
 const buttonRandom = document.querySelectorAll(".buttonRandom")
+const errorButton = document.querySelector(".errorButton")
+const buttonDiet = document.querySelectorAll(".buttonDiet")
 
-//EVENT LISTENERS
-//LISTENS FOR CLICKS TO FILTER BY CUISINE
 buttonCuisine.forEach(button => { 
     button.addEventListener("click", (event) => {
         const cuisine = event.target.getAttribute("data-cuisine")
@@ -243,7 +111,6 @@ buttonCuisine.forEach(button => {
     })
 })
 
-//LISTENS FOR CHANGES TO SORT BY TIME
 buttonTime.forEach(button => { 
     button.addEventListener("change", (event) => {
         const time = event.target.value
@@ -251,7 +118,13 @@ buttonTime.forEach(button => {
     })
 })
 
-//LISTENS FOR CLICKS TO RANDOMLY SELECT A RECIPE
+buttonDiet.forEach(button => { 
+    button.addEventListener("change", (event) => {
+        const diet = event.target.value
+        filterByDiet(diet)
+    })
+})
+
 document.querySelector('.buttonRandom').addEventListener('click', () => { 
     const filteredRecipes = getCurrentCuisineFiltered()
     const randomNumber = Math.floor(Math.random() * filteredRecipes.length)
