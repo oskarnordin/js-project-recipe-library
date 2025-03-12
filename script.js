@@ -72,37 +72,37 @@ const getCurrentDietFiltered = () => {
     }
     return recipes.filter(recipe => {
         if (currentDiet === "vegan") {
-            return recipe.vegan === true // Check if vegan is true
+            return recipe.vegan === true || recipe.diets.includes("vegan")
         }
         if (currentDiet === "vegetarian") {
-            return recipe.vegetarian // Check the boolean value
+            return recipe.vegetarian === true || recipe.diets.includes("vegetarian")
         }
         if (currentDiet === "gluten free") {
-            return recipe.glutenFree // Check the boolean value
+            return recipe.glutenFree === true || recipe.diets.includes("gluten free")
         }
         if (currentDiet === "dairy free") {
-            return recipe.dairyFree // Check the boolean value
+            return recipe.dairyFree === true || recipe.diets.includes("dairy free")
         }
         if (currentDiet === "ketogenic") {
-            return recipe.ketogenic // Check the boolean value
+            return recipe.ketogenic === true || recipe.diets.includes("ketogenic")
         }
         if (currentDiet === "pescetarian") {
-            return recipe.pescetarian // Check the boolean value
+            return recipe.pescetarian === true || recipe.diets.includes("pescetarian")
         }
         if (currentDiet === "lacto ovo vegetarian") {
-            return recipe.lactoOvoVegetarian // Check the boolean value
+            return recipe.lactoOvoVegetarian === true || recipe.diets.includes("lacto ovo vegetarian")
         }
-        if (currentDiet === "whole30") {
-            return recipe.whole30 // Check the boolean value
+        if (currentDiet === "whole 30") {
+            return recipe.whole30 === true || recipe.diets.includes("whole 30")
         }
         if (currentDiet === "paleo") {
-            return recipe.paleo // Check the boolean value
+            return recipe.paleo === true || recipe.diets.includes("paleo")
         }
         if (currentDiet === "primal") {
-            return recipe.primal // Check the boolean value
+            return recipe.primal === true || recipe.diets.includes("primal")
         }
         if (currentDiet === "fodmap friendly") {
-            return recipe.lowFodmap // Check the boolean value
+            return recipe.lowFodmap === true || recipe.diets.includes("fodmap friendly") 
         }
         return recipe.diets.includes(currentDiet) // For other diets
     })
