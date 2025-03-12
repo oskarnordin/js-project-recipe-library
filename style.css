@@ -87,7 +87,7 @@ img{
 
 .buttonCuisine:has(:checked),
 .buttonTime:has(:checked),
-.buttonRandom:has(:checked)
+.buttonRandom:has(:checked),
 .buttonDiet:has(:checked) {
     background-color: var(--primary-color);
     color: white;
@@ -179,33 +179,30 @@ img {
     border-radius: var(--border-radius);
 }
 
-/* MOBILE VIEW */
+/* Mobile view */
 @media (max-width: 768px) {
-    .menu {
-        height: auto;
-        grid-column: 1 / -1;
-    }
+.container {
+    display: grid;
+    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(1, 1fr) !important;
+    grid-template-areas:
+        ". "
+        ". "
+        ". "
+        ". "
+        ". "
+        ". ";}   
 }
 
 .cards {
     gap: 10px;
-    flex-wrap: wrap;
     background-color: #fff;
-    width: 90%;
+    width: 80%;
     min-height: 300px;
     margin: 10px;
     border-radius: var(--border-radius);
     border: 1px solid grey;
     padding: 20px;
     transition: all 0.3s ease-in-out;
-}
-
-/* MOBILE VIEW */
-@media (max-width: 768px) {
-    .container {
-        display: grid;
-        gap: 10px;
-        grid-auto-flow: row;
-        grid-template-columns: repeat(2, 1fr);
-    }
 }

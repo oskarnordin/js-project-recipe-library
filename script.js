@@ -1,7 +1,6 @@
 let recipes = []
 const container = document.querySelector('.container') 
-const URL = "https://api.spoonacular.com/recipes/random?number=10&apiKey=025b168ece454bd28587e077ad0c96d6"
-let currentCuisine = "all"
+const URL = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9140586d9ad349ee88356eff9045445c"
 let currentDiet = "all"
 
 //API call
@@ -13,8 +12,12 @@ fetch(URL)
     return response.json();
 })
 .then(data => {
-    recipes = data.recipes;
-    console.log(recipes);
+    const validRecipes = data.recipes.filter(recipe => {
+       return recipe.diets.length > 0
+    })
+    recipes = validRecipes
+    console.log(recipes)
+    applyFilters() // Load initial recipes
 })
 .catch(error => {
     console.log(error);
@@ -32,37 +35,24 @@ fetch(URL)
 
 //Functions
 const loadRecipes = (arg1) => {
-    if (arg1.length === 0) {
-        container.innerHTML = `
-        <div class="cards">
-        <p>No recipes found for ${currentCuisine} cuisine</p>
-        </div>
-        `
-    return
-    }
-        container.innerHTML = ''
-        arg1.forEach(recipe => {
+    container.innerHTML = ''
+    arg1.forEach(recipe => {
         container.innerHTML += `
         <div class="cards">
         <p><img src="${recipe.image}" alt="${recipe.title}"></p>
         <h2>${recipe.title}</h2>
         <p>Time to cook: ${recipe.readyInMinutes} minutes<br>
-        Cuisine: ${recipe.cuisine}<br>
-        Health score: ${recipe.healthScore}
-
+        Cuisine: ${recipe.cuisine ? recipe.cuisine : 'Unknown'}<br>
+        Health score: ${recipe.healthScore}<br>
+        Diets: ${recipe.diets.join(", ")}
         </p>
         </div>
         `
     })
 }
 
-const filterByCuisine = (arg1) => {
-    currentCuisine = arg1
-    applyFilters()
-}
-
 const filterByTime = (time) => { 
-    const filteredRecipes = getCurrentCuisineFiltered()
+    const filteredRecipes = getCurrentDietFiltered()
     if (time === "ascending") {
         filteredRecipes.sort((a, b) => a.readyInMinutes - b.readyInMinutes) //Ascending
     } else {
@@ -71,43 +61,66 @@ const filterByTime = (time) => {
     loadRecipes(filteredRecipes)
 }
 
-const getCurrentCuisineFiltered = () => { 
-    if (currentCuisine === "all") {
-        return recipes
-    }
-    return recipes.filter(recipe => recipe.cuisine === currentCuisine)
+const filterByDiet = (diet) => {
+    currentDiet = diet
+    applyFilters()
 }
 
 const getCurrentDietFiltered = () => {
     if (currentDiet === "all") {
         return recipes
     }
-    return recipes.filter(recipe => recipe.diets.includes(currentDiet))
+    return recipes.filter(recipe => {
+        if (currentDiet === "vegan") {
+            return recipe.vegan === true // Check if vegan is true
+        }
+        if (currentDiet === "vegetarian") {
+            return recipe.vegetarian // Check the boolean value
+        }
+        if (currentDiet === "gluten free") {
+            return recipe.glutenFree // Check the boolean value
+        }
+        if (currentDiet === "dairy free") {
+            return recipe.dairyFree // Check the boolean value
+        }
+        if (currentDiet === "ketogenic") {
+            return recipe.ketogenic // Check the boolean value
+        }
+        if (currentDiet === "pescetarian") {
+            return recipe.pescetarian // Check the boolean value
+        }
+        if (currentDiet === "lacto ovo vegetarian") {
+            return recipe.lactoOvoVegetarian // Check the boolean value
+        }
+        if (currentDiet === "whole30") {
+            return recipe.whole30 // Check the boolean value
+        }
+        if (currentDiet === "paleo") {
+            return recipe.paleo // Check the boolean value
+        }
+        if (currentDiet === "primal") {
+            return recipe.primal // Check the boolean value
+        }
+        if (currentDiet === "fodmap friendly") {
+            return recipe.lowFodmap // Check the boolean value
+        }
+        return recipe.diets.includes(currentDiet) // For other diets
+    })
 }
 
-const applyFilters = () => { 
-    const filteredRecipes = getCurrentCuisineFiltered()
+const applyFilters = () => {
+    const filteredRecipes = getCurrentDietFiltered()
     loadRecipes(filteredRecipes)
 }
 
-const filterByDiet = (diet) => {
-    const filteredRecipes = getCurrentCuisineFiltered()
-    const filteredDiet = filteredRecipes.filter(recipe => recipe.diets.includes(diet))
-    loadRecipes(filteredDiet)
-}
-
-
 //Event listeners
-const buttonCuisine = document.querySelectorAll(".buttonCuisine")
-const buttonTime = document.querySelectorAll(".buttonTime")
-const buttonRandom = document.querySelectorAll(".buttonRandom")
-const errorButton = document.querySelector(".errorButton")
 const buttonDiet = document.querySelectorAll(".buttonDiet")
+const buttonTime = document.querySelectorAll(".buttonTime")
 
-buttonCuisine.forEach(button => { 
-    button.addEventListener("click", (event) => {
-        const cuisine = event.target.getAttribute("data-cuisine")
-        filterByCuisine(cuisine)
+buttonDiet.forEach(button => { 
+    button.addEventListener("change", (event) => {
+        const diet = event.target.getAttribute("data-diet").toLowerCase()
+        filterByDiet(diet)
     })
 })
 
@@ -118,15 +131,8 @@ buttonTime.forEach(button => {
     })
 })
 
-buttonDiet.forEach(button => { 
-    button.addEventListener("change", (event) => {
-        const diet = event.target.value
-        filterByDiet(diet)
-    })
-})
-
 document.querySelector('.buttonRandom').addEventListener('click', () => { 
-    const filteredRecipes = getCurrentCuisineFiltered()
+    const filteredRecipes = getCurrentDietFiltered()
     const randomNumber = Math.floor(Math.random() * filteredRecipes.length)
     loadRecipes([filteredRecipes[randomNumber]])
 })
