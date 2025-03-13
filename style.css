@@ -104,6 +104,10 @@ img{
     background-color: var(--hover-color);
 }
 
+input[type="radio"], input[type="button"] {
+    display: none;
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -139,17 +143,47 @@ img{
 }
 
 .errorMessages {
-    width: 400px;
+    width: 250px;
     background-color: #6364fb;
     color: white;
     border-radius: 25px;
     text-align: center;
     padding: 25px;
     position: absolute;
-    top: 30%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
+    opacity: 75%;
 }
+
+.loader {
+    display: flex;
+    width: 150px;
+    background-color: #6364fb;
+    color: white;
+    border-radius: 25px;
+    text-align: center;
+    justify-content: center;
+    padding: 10px;
+    font-weight: 600;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    transform: translate(-50%, -50%);
+    animation: fadeInOut 2s ease-in-out;
+    opacity: 0;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    50% { opacity: 1; }
+    75% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
 
 .errorButton {
     background-color: #a9b0c7;
@@ -208,13 +242,9 @@ button {
 
 button:hover {
     background-color: navy;
+    color: white;
 }
 
-.loader {
-    width: 40px;
-    height: 40px;
-    display: none;
-  }
 
 
 /* Mobile view */

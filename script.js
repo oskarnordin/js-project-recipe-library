@@ -3,13 +3,13 @@ const container = document.querySelector('.container')
 const URL = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9140586d9ad349ee88356eff9045445c"
 let currentDiet = "all"
 
-
+//API call
 const loader = document.getElementById('loader');
-const content = document.getElementById('content');
-  
+
 loader.style.display = 'block';
 
-//API call
+
+
 fetch(URL)
 .then(response => {
     if (!response.ok) {
@@ -18,19 +18,22 @@ fetch(URL)
     return response.json();
 })
 .then(data => {
+    // Don't hide loader immediately
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 2000); // Match animation duration
+    
     const validRecipes = data.recipes.filter(recipe => {
-        loader.style.display = 'none'
         return recipe.diets.length > 0
-    })
-        recipes = validRecipes
-        console.log(recipes)
-        applyFilters() // Load initial recipes
-        loader.style.display = 'none'
+    });
+    recipes = validRecipes;
+    applyFilters();
 })
 .catch(error => {
     console.log(error);
-    container.innerHTML += `
-    <div class="errorMessages">
+    loader.style.display = 'none';
+    container.innerHTML += 
+    `<div class="errorMessages">
         <h2>There was an error loading the recipes</h2>
         <p>${error.message}</p>
         <button class="errorButton">Dismiss</button>
@@ -49,7 +52,7 @@ const loadRecipes = (arg1) => {
         <div class="cards">
         <p><img src="${recipe.image}" alt="${recipe.title}"></p>
         <h2>${recipe.title}</h2>
-        <p>Time to cook: ${recipe.readyInMinutes} minutes<br>
+        <p><Time to cook: ${recipe.readyInMinutes} minutes<br>
         Health score: ${recipe.healthScore}<br>
         Diets: ${recipe.diets.join(", ")}
         </p>
@@ -153,5 +156,15 @@ document.querySelector('.buttonRandom').addEventListener('click', () => {
 
 document.querySelector("button").addEventListener("click", function() {
     let searchValue = document.getElementById("search").value;
+    console.log("Searching for:", searchValue);
     filterBySearch(searchValue);
-})
+});
+
+function showLoader() {
+    const loader = document.querySelector('.loader');
+    loader.style.display = 'flex';
+    // Hide loader after animation completes
+    setTimeout(() => {
+      loader.style.display = 'none';
+    }, 2000);
+  }
