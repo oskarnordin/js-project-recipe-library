@@ -3,6 +3,12 @@ const container = document.querySelector('.container')
 const URL = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9140586d9ad349ee88356eff9045445c"
 let currentDiet = "all"
 
+
+const loader = document.getElementById('loader');
+const content = document.getElementById('content');
+  
+loader.style.display = 'block';
+
 //API call
 fetch(URL)
 .then(response => {
@@ -13,11 +19,13 @@ fetch(URL)
 })
 .then(data => {
     const validRecipes = data.recipes.filter(recipe => {
-       return recipe.diets.length > 0
+        loader.style.display = 'none'
+        return recipe.diets.length > 0
     })
-    recipes = validRecipes
-    console.log(recipes)
-    applyFilters() // Load initial recipes
+        recipes = validRecipes
+        console.log(recipes)
+        applyFilters() // Load initial recipes
+        loader.style.display = 'none'
 })
 .catch(error => {
     console.log(error);
@@ -42,7 +50,6 @@ const loadRecipes = (arg1) => {
         <p><img src="${recipe.image}" alt="${recipe.title}"></p>
         <h2>${recipe.title}</h2>
         <p>Time to cook: ${recipe.readyInMinutes} minutes<br>
-        Cuisine: ${recipe.cuisine ? recipe.cuisine : 'Unknown'}<br>
         Health score: ${recipe.healthScore}<br>
         Diets: ${recipe.diets.join(", ")}
         </p>
@@ -95,7 +102,7 @@ const getCurrentDietFiltered = () => {
         if (currentDiet === "whole 30") {
             return recipe.whole30 === true || recipe.diets.includes("whole 30")
         }
-        if (currentDiet === "paleo") {
+        if (currentDiet === "paleolithic") {
             return recipe.paleo === true || recipe.diets.includes("paleo")
         }
         if (currentDiet === "primal") {
@@ -110,6 +117,13 @@ const getCurrentDietFiltered = () => {
 
 const applyFilters = () => {
     const filteredRecipes = getCurrentDietFiltered()
+    loadRecipes(filteredRecipes)
+}
+
+const filterBySearch = (searchValue) => {
+    const filteredRecipes = recipes.filter(recipe => {
+        return recipe.title.toLowerCase().includes(searchValue.toLowerCase())
+    })
     loadRecipes(filteredRecipes)
 }
 
@@ -135,4 +149,9 @@ document.querySelector('.buttonRandom').addEventListener('click', () => {
     const filteredRecipes = getCurrentDietFiltered()
     const randomNumber = Math.floor(Math.random() * filteredRecipes.length)
     loadRecipes([filteredRecipes[randomNumber]])
+})
+
+document.querySelector("button").addEventListener("click", function() {
+    let searchValue = document.getElementById("search").value;
+    filterBySearch(searchValue);
 })
