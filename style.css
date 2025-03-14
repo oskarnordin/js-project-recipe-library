@@ -167,19 +167,10 @@ input[type="radio"], input[type="button"] {
     position: absolute;
     top: 5%;
     left: 50%;
-    transform: translate(-50%, -50%);
     display: none;
     transform: translate(-50%, -50%);
     animation: fadeInOut 2s ease-in-out;
     opacity: 0;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    25% { opacity: 1; }
-    50% { opacity: 1; }
-    75% { opacity: 0; }
-    100% { opacity: 0; }
 }
 
 

@@ -1,11 +1,9 @@
 let recipes = []
 const container = document.querySelector('.container')
 
-const URL = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9140586d9ad349ee88356eff9045445c"
+const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
 
 let currentDiet = "all"
-const loader = document.getElementById('loader')
-loader.style.display = 'block'
 
 // Functions
 const loadRecipes = (arg1) => {
@@ -42,43 +40,29 @@ const filterByDiet = (diet) => {
 
 const getCurrentDietFiltered = () => {
     if (currentDiet === "all") {
-        return recipes
+        return recipes;
     }
+
+    const dietMap = {
+        "vegan": "vegan",
+        "vegetarian": "vegetarian",
+        "gluten free": "glutenFree",
+        "dairy free": "dairyFree",
+        "ketogenic": "ketogenic",
+        "pescetarian": "pescetarian",
+        "lacto ovo vegetarian": "lactoOvoVegetarian",
+        "whole 30": "whole30",
+        "paleolithic": "paleo",
+        "primal": "primal",
+        "fodmap friendly": "lowFodmap"
+    }
+
     return recipes.filter(recipe => {
-        if (currentDiet === "vegan") {
-            return recipe.vegan === true || recipe.diets.includes("vegan")
+        const dietKey = dietMap[currentDiet];
+        if (dietKey) {
+            return recipe[dietKey] === true || recipe.diets.includes(currentDiet);
         }
-        if (currentDiet === "vegetarian") {
-            return recipe.vegetarian === true || recipe.diets.includes("vegetarian")
-        }
-        if (currentDiet === "gluten free") {
-            return recipe.glutenFree === true || recipe.diets.includes("gluten free")
-        }
-        if (currentDiet === "dairy free") {
-            return recipe.dairyFree === true || recipe.diets.includes("dairy free")
-        }
-        if (currentDiet === "ketogenic") {
-            return recipe.ketogenic === true || recipe.diets.includes("ketogenic")
-        }
-        if (currentDiet === "pescetarian") {
-            return recipe.pescetarian === true || recipe.diets.includes("pescetarian")
-        }
-        if (currentDiet === "lacto ovo vegetarian") {
-            return recipe.lactoOvoVegetarian === true || recipe.diets.includes("lacto ovo vegetarian")
-        }
-        if (currentDiet === "whole 30") {
-            return recipe.whole30 === true || recipe.diets.includes("whole 30")
-        }
-        if (currentDiet === "paleolithic") {
-            return recipe.paleo === true || recipe.diets.includes("paleo")
-        }
-        if (currentDiet === "primal") {
-            return recipe.primal === true || recipe.diets.includes("primal")
-        }
-        if (currentDiet === "fodmap friendly") {
-            return recipe.lowFodmap === true || recipe.diets.includes("fodmap friendly") 
-        }
-        return recipe.diets.includes(currentDiet) // For other diets
+        return recipe.diets.includes(currentDiet); // For other diets
     })
 }
 
@@ -104,6 +88,10 @@ const showLoader = () => {
 
 // Check local storage for recipes
 const loadData = () => {
+    const loader = document.getElementById('loader')
+    loader.style.display = 'block'
+    console.log('Loader displayed: block')
+
     const storedRecipes = localStorage.getItem('recipes');
     if (storedRecipes) {
         try {
@@ -114,6 +102,7 @@ const loadData = () => {
             console.error('Error parsing stored recipes:', error);
         }
         loader.style.display = 'none';
+        console.log('Loader displayed: none')
     } else {
         // API call
         fetch(URL)
@@ -126,6 +115,7 @@ const loadData = () => {
         .then(data => {
             setTimeout(() => {
                 loader.style.display = 'none';
+                console.log('Loader displayed: none')
             }, 2000)
             
             const validRecipes = data.recipes.filter(recipe => {
@@ -138,6 +128,7 @@ const loadData = () => {
         .catch(error => {
             console.log(error);
             loader.style.display = 'none';
+            console.log('Loader displayed: none')
             container.innerHTML += 
             `<div class="errorMessages">
                 <h2>There was an error loading the recipes</h2>
