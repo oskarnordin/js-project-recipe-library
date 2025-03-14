@@ -1,11 +1,11 @@
 let recipes = []
 const container = document.querySelector('.container')
 
-const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
+//const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
 
 let currentDiet = "all"
 
-// Functions
+// Load recipes to the page. 
 const loadRecipes = (arg1) => {
     container.innerHTML = ''
     arg1.forEach(recipe => {
@@ -23,6 +23,7 @@ const loadRecipes = (arg1) => {
     })
 }
 
+// Filter by time to cook.
 const filterByTime = (time) => { 
     const filteredRecipes = getCurrentDietFiltered()
     if (time === "ascending") {
@@ -33,11 +34,13 @@ const filterByTime = (time) => {
     loadRecipes(filteredRecipes)
 }
 
+// Filter by diet.
 const filterByDiet = (diet) => {
     currentDiet = diet
     applyFilters()
 }
 
+// Get current diet filtered. 
 const getCurrentDietFiltered = () => {
     if (currentDiet === "all") {
         return recipes;
@@ -66,11 +69,13 @@ const getCurrentDietFiltered = () => {
     })
 }
 
+// Apply filters. 
 const applyFilters = () => {
     const filteredRecipes = getCurrentDietFiltered()
     loadRecipes(filteredRecipes)
 }
 
+// Filter by search value.
 const filterBySearch = (searchValue) => {
     const filteredRecipes = recipes.filter(recipe => {
         return recipe.title.toLowerCase().includes(searchValue.toLowerCase())
@@ -78,6 +83,7 @@ const filterBySearch = (searchValue) => {
     loadRecipes(filteredRecipes)
 }
 
+// Show loader. Hide after 2 seconds.
 const showLoader = () => {
     const loader = document.querySelector('.loader')
     loader.style.display = 'flex'
@@ -86,7 +92,7 @@ const showLoader = () => {
     }, 2000)
 }
 
-// Check local storage for recipes
+// Check local storage for recipes and load them if they exist. Otherwise, fetch from API.
 const loadData = () => {
     const loader = document.getElementById('loader')
     loader.style.display = 'block'
@@ -131,8 +137,9 @@ const loadData = () => {
             console.log('Loader displayed: none')
             container.innerHTML += 
             `<div class="errorMessages">
-                <h2>There was an error loading the recipes</h2>
-                <p>${error.message}</p>
+            <img src="img/error.png" alt="Error icon">
+                <h2>Oops! Something went wrong.</h2>
+                <p>There was an error loading your recipes: ${error.message}</p>
                 <button class="errorButton">Dismiss</button>
             </div>
             `;
@@ -143,7 +150,7 @@ const loadData = () => {
         }
 }
 
-// Event listeners
+// Event listeners.
 const buttonDiet = document.querySelectorAll(".buttonDiet")
 const buttonTime = document.querySelectorAll(".buttonTime")
 
