@@ -1,50 +1,13 @@
 let recipes = []
-const container = document.querySelector('.container') 
+const container = document.querySelector('.container')
+
 const URL = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9140586d9ad349ee88356eff9045445c"
+
 let currentDiet = "all"
+const loader = document.getElementById('loader')
+loader.style.display = 'block'
 
-//API call
-const loader = document.getElementById('loader');
-
-loader.style.display = 'block';
-
-
-
-fetch(URL)
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-})
-.then(data => {
-    // Don't hide loader immediately
-    setTimeout(() => {
-        loader.style.display = 'none';
-    }, 2000); // Match animation duration
-    
-    const validRecipes = data.recipes.filter(recipe => {
-        return recipe.diets.length > 0
-    });
-    recipes = validRecipes;
-    applyFilters();
-})
-.catch(error => {
-    console.log(error);
-    loader.style.display = 'none';
-    container.innerHTML += 
-    `<div class="errorMessages">
-        <h2>There was an error loading the recipes</h2>
-        <p>${error.message}</p>
-        <button class="errorButton">Dismiss</button>
-    </div>
-    `;
-    document.querySelector('.errorButton').addEventListener('click', () => {
-        document.querySelector('.errorMessages').classList.add('hidden');
-    });
-});
-
-//Functions
+// Functions
 const loadRecipes = (arg1) => {
     container.innerHTML = ''
     arg1.forEach(recipe => {
@@ -52,10 +15,11 @@ const loadRecipes = (arg1) => {
         <div class="cards">
         <p><img src="${recipe.image}" alt="${recipe.title}"></p>
         <h2>${recipe.title}</h2>
-        <p><Time to cook: ${recipe.readyInMinutes} minutes<br>
-        Health score: ${recipe.healthScore}<br>
+        <p>Time to cook: ${recipe.readyInMinutes} minutes.<br>
+        Health score: ${recipe.healthScore}.<br>
         Diets: ${recipe.diets.join(", ")}
         </p>
+        
         </div>
         `
     })
@@ -130,7 +94,65 @@ const filterBySearch = (searchValue) => {
     loadRecipes(filteredRecipes)
 }
 
-//Event listeners
+const showLoader = () => {
+    const loader = document.querySelector('.loader')
+    loader.style.display = 'flex'
+    setTimeout(() => {
+        loader.style.display = 'none'
+    }, 2000)
+}
+
+// Check local storage for recipes
+const loadData = () => {
+    const storedRecipes = localStorage.getItem('recipes');
+    if (storedRecipes) {
+        try {
+            recipes = JSON.parse(storedRecipes);
+            console.log('Recipes loaded from local storage', recipes);
+            applyFilters()
+        } catch (error) {
+            console.error('Error parsing stored recipes:', error);
+        }
+        loader.style.display = 'none';
+    } else {
+        // API call
+        fetch(URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json();
+        })
+        .then(data => {
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 2000)
+            
+            const validRecipes = data.recipes.filter(recipe => {
+                return recipe.diets.length > 0
+            })
+            recipes = validRecipes;
+            localStorage.setItem('recipes', JSON.stringify(recipes)); // Store recipes in local storage
+            applyFilters()
+        })
+        .catch(error => {
+            console.log(error);
+            loader.style.display = 'none';
+            container.innerHTML += 
+            `<div class="errorMessages">
+                <h2>There was an error loading the recipes</h2>
+                <p>${error.message}</p>
+                <button class="errorButton">Dismiss</button>
+            </div>
+            `;
+            document.querySelector('.errorButton').addEventListener('click', () => {
+                document.querySelector('.errorMessages').classList.add('hidden')
+            })
+        })
+        }
+}
+
+// Event listeners
 const buttonDiet = document.querySelectorAll(".buttonDiet")
 const buttonTime = document.querySelectorAll(".buttonTime")
 
@@ -158,13 +180,6 @@ document.querySelector("button").addEventListener("click", function() {
     let searchValue = document.getElementById("search").value;
     console.log("Searching for:", searchValue);
     filterBySearch(searchValue);
-});
+})
 
-function showLoader() {
-    const loader = document.querySelector('.loader');
-    loader.style.display = 'flex';
-    // Hide loader after animation completes
-    setTimeout(() => {
-      loader.style.display = 'none';
-    }, 2000);
-  }
+loadData()

@@ -9,6 +9,7 @@
 
 body {
     padding: 40px;
+    background-color: #fff7f4;
     font-family: var(--font-family);
     margin: 0;
 }
@@ -43,7 +44,7 @@ img{
 .container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr); /* Change this line */
     gap: 0 10px;
     grid-auto-flow: row;
 }
@@ -123,23 +124,20 @@ input[type="radio"], input[type="button"] {
 }
 
 .cards {
-    display: grid;
     gap: 10px;
-    line-height: 0.8;
-    flex-wrap: wrap;
-    background-color: #fff;
-    width: 20%;
-    min-height: 621px;
+    background-color: #ffffff;
+    width: 80%;
+    min-height: 300px;
     margin: 10px;
     border-radius: var(--border-radius);
-    border: 1px solid grey;
     padding: 20px;
     transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add this line */
 }
 
+
 .cards:hover {
-    border: 1px solid var(--primary-color);
-    box-shadow: 5px 5px 10px rgba(15, 12, 231, 0.2);
+    box-shadow: 10px 10px 10px rgba(231, 56, 12, 0.2);
 }
 
 .errorMessages {
@@ -153,14 +151,14 @@ input[type="radio"], input[type="button"] {
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 75%;
+    opacity: 90%;
 }
 
 .loader {
     display: flex;
     width: 150px;
-    background-color: #6364fb;
-    color: white;
+    background-color: #ededed;
+    color: rgb(0, 0, 0);
     border-radius: 25px;
     text-align: center;
     justify-content: center;
@@ -223,7 +221,7 @@ img {
     border-radius: 25px;
     outline: none;
     font-size: 16px;
-  background-color: rgb(243, 243, 243);
+    background-color: rgb(243, 243, 243);
 }
 
 button {
@@ -247,6 +245,21 @@ button:hover {
 
 
 
+#loadMore {
+    background-color: var(--secondary-color);
+    border: 2px solid transparent;
+    padding: var(--padding);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    margin: 5px;
+    cursor: pointer;
+}
+
+
 /* Mobile view */
 @media (max-width: 768px) {
 .container {
@@ -263,14 +276,3 @@ button:hover {
         ". ";}   
 }
 
-.cards {
-    gap: 10px;
-    background-color: #fff;
-    width: 80%;
-    min-height: 300px;
-    margin: 10px;
-    border-radius: var(--border-radius);
-    border: 1px solid grey;
-    padding: 20px;
-    transition: all 0.3s ease-in-out;
-}
