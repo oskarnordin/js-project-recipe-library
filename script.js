@@ -43,7 +43,7 @@ const filterByDiet = (diet) => {
 // Get current diet filtered. 
 const getCurrentDietFiltered = () => {
     if (currentDiet === "all") {
-        return recipes;
+        return recipes
     }
 
     const dietMap = {
@@ -61,11 +61,11 @@ const getCurrentDietFiltered = () => {
     }
 
     return recipes.filter(recipe => {
-        const dietKey = dietMap[currentDiet];
+        const dietKey = dietMap[currentDiet]
         if (dietKey) {
-            return recipe[dietKey] === true || recipe.diets.includes(currentDiet);
+            return recipe[dietKey] === true || recipe.diets.includes(currentDiet)
         }
-        return recipe.diets.includes(currentDiet); // For other diets
+        return recipe.diets.includes(currentDiet) // For other diets
     })
 }
 
@@ -98,16 +98,16 @@ const loadData = () => {
     loader.style.display = 'block'
     console.log('Loader displayed: block')
 
-    const storedRecipes = localStorage.getItem('recipes');
+    const storedRecipes = localStorage.getItem('recipes')
     if (storedRecipes) {
         try {
-            recipes = JSON.parse(storedRecipes);
+            recipes = JSON.parse(storedRecipes)
             console.log('Recipes loaded from local storage', recipes)
             applyFilters()
         } catch (error) {
             console.error('Error parsing stored recipes:', error)
         }
-        loader.style.display = 'none';
+        loader.style.display = 'none'
         console.log('Loader displayed: none')
     } else {
         // API call
@@ -116,24 +116,24 @@ const loadData = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
             }
-            return response.json();
+            return response.json()
         })
         .then(data => {
             setTimeout(() => {
-                loader.style.display = 'none';
+                loader.style.display = 'none'
                 console.log('Loader displayed: none')
             }, 2000)
             
             const validRecipes = data.recipes.filter(recipe => {
                 return recipe.diets.length > 0
             })
-            recipes = validRecipes;
-            localStorage.setItem('recipes', JSON.stringify(recipes)); // Store recipes in local storage
+            recipes = validRecipes
+            localStorage.setItem('recipes', JSON.stringify(recipes)) // Store recipes in local storage
             applyFilters()
         })
         .catch(error => {
-            console.log(error);
-            loader.style.display = 'none';
+            console.log(error)
+            loader.style.display = 'none'
             console.log('Loader displayed: none')
             container.innerHTML += 
             `<div class="errorMessages">
@@ -141,8 +141,7 @@ const loadData = () => {
                 <h2>Oops! Something went wrong.</h2>
                 <p>There was an error loading your recipes: ${error.message}</p>
                 <button class="errorButton">Dismiss</button>
-            </div>
-            `;
+            </div>`
             document.querySelector('.errorButton').addEventListener('click', () => {
                 document.querySelector('.errorMessages').classList.add('hidden')
             })
@@ -175,9 +174,9 @@ document.querySelector('.buttonRandom').addEventListener('click', () => {
 })
 
 document.querySelector("button").addEventListener("click", function() {
-    let searchValue = document.getElementById("search").value;
-    console.log("Searching for:", searchValue);
-    filterBySearch(searchValue);
+    let searchValue = document.getElementById("search").value
+    console.log("Searching for:", searchValue)
+    filterBySearch(searchValue)
 })
 
 loadData()
