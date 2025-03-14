@@ -41,6 +41,15 @@ img{
     border-radius: 40px;
 }
 
+h3 {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-family: var(--font-family);
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: var(--primary-color);
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
