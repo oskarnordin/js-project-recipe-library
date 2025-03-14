@@ -1,7 +1,7 @@
 let recipes = []
 const container = document.querySelector('.container')
 
-//const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
+const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
 
 let currentDiet = "all"
 
@@ -15,9 +15,9 @@ const loadRecipes = (arg1) => {
         <h2>${recipe.title}</h2>
         <p>Time to cook: ${recipe.readyInMinutes} minutes.<br>
         Health score: ${recipe.healthScore}.<br>
-        Diets: ${recipe.diets.join(", ")}
-        </p>
-        
+        Diets: ${recipe.diets.join(", ")}<br>
+        Servings: ${recipe.servings}</p>
+        <a href="${recipe.sourceUrl}" target="_blank" class="view-recipe"><h3>View recipe</h3></a>
         </div>
         `
     })
@@ -102,10 +102,10 @@ const loadData = () => {
     if (storedRecipes) {
         try {
             recipes = JSON.parse(storedRecipes);
-            console.log('Recipes loaded from local storage', recipes);
+            console.log('Recipes loaded from local storage', recipes)
             applyFilters()
         } catch (error) {
-            console.error('Error parsing stored recipes:', error);
+            console.error('Error parsing stored recipes:', error)
         }
         loader.style.display = 'none';
         console.log('Loader displayed: none')

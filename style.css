@@ -124,20 +124,31 @@ input[type="radio"], input[type="button"] {
 }
 
 .cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
     background-color: #ffffff;
     width: 80%;
-    min-height: 300px;
+    height: 90%;
     margin: 10px;
     border-radius: var(--border-radius);
     padding: 20px;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add this line */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .cards:hover {
     box-shadow: 10px 10px 10px rgba(231, 56, 12, 0.2);
+}
+
+.card-content {
+    flex-grow: 1;
+}
+
+.view-recipe {
+    align-self: flex-end;
+    margin-top: auto;
 }
 
 .errorMessages {
@@ -151,7 +162,6 @@ input[type="radio"], input[type="button"] {
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 98%;
 }
 
 .loader {
