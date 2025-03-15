@@ -1,9 +1,8 @@
 let recipes = []
 const container = document.querySelector('.container')
-
 const URL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=9140586d9ad349ee88356eff9045445c"
-
 let currentDiet = "all"
+let isLoading = false // Add this line
 
 // Load recipes to the page. 
 const loadRecipes = (arg1) => {
@@ -21,6 +20,23 @@ const loadRecipes = (arg1) => {
         </div>
         `
     })
+}
+
+// Define the loadMoreRecipes function
+const loadMoreRecipes = async () => {
+    try {
+        const response = await fetch(URL)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json()
+        const validRecipes = data.recipes.filter(recipe => recipe.diets.length > 0)
+        recipes = [...recipes, ...validRecipes]
+        localStorage.setItem('recipes', JSON.stringify(recipes))
+        applyFilters()
+    } catch (error) {
+        console.error('Error loading more recipes:', error)
+    }
 }
 
 // Filter by time to cook.
@@ -178,5 +194,18 @@ document.querySelector("button").addEventListener("click", function() {
     console.log("Searching for:", searchValue)
     filterBySearch(searchValue)
 })
+
+window.addEventListener("scroll", async () => {
+    if (isLoading) return;
+
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 50
+    ) {
+      isLoading = true;
+      await loadMoreRecipes();
+      isLoading = false;
+    }
+  });
 
 loadData()
